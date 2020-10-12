@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CardList from "../components/CardList";
 import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
+import ErrorBoundary from "../components/ErrorBoundary";
 import "./app.css";
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("https://jsonplaceholder.typicode.com/users") //API
       .then((response) => {
         return response.json();
       })
@@ -24,6 +25,7 @@ class App extends Component {
   }
 
   onSearchChange = (event) => {
+    // method in class react
     this.setState({ searchfield: event.target.value }); // Object Destructuring
   };
 
@@ -36,10 +38,12 @@ class App extends Component {
       <h1>Loading</h1>
     ) : (
       <div className="tc">
-        <h1 className="f1">RoboKu</h1>
+        <h1 className="f1 tracked-mega">RoboKu</h1>
         <SearchBox searchChange={this.onSearchChange} />
         <Scroll>
-          <CardList robots={filteredRobots} />
+          <ErrorBoundary>
+            <CardList robots={filteredRobots} />
+          </ErrorBoundary>
         </Scroll>
       </div>
     );
